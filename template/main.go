@@ -11,7 +11,7 @@ import (
 )
 
 const (
-	max          = 50000
+	max          = 1000000
 	templatePath = "./json.tmpl"
 	outputPath   = "./data.json"
 )
@@ -57,6 +57,8 @@ func main() {
 	w := bufio.NewWriter(file)
 	w.WriteString(buf.String())
 	w.Flush()
+
+	fmt.Println("End")
 }
 
 type Data struct {
