@@ -3,12 +3,17 @@ package main
 import (
 	"bufio"
 	"bytes"
-	"flag"
 	"fmt"
 	"html/template"
 	"log"
 	"os"
 	"path/filepath"
+)
+
+const (
+	max          = 1000000
+	templatePath = "./json.tmpl"
+	outputPath   = "./data.json"
 )
 
 func abs(path string) string {
@@ -20,30 +25,24 @@ func abs(path string) string {
 }
 
 func main() {
-	count := *flag.Int("c", 10, "データ件数")
-	templatePath := *flag.String("t", "./json.tmpl", "テンプレートファイルパス")
-	outputPath := *flag.String("o", "./data.json", "生成JSONパス")
-	flag.Parse()
-
 	fmt.Println("Start")
-	fmt.Printf("[Args][count:%d][templatePath:%s][outputPath:%s]\n", count, templatePath, outputPath)
 
 	var items []*Item
-	for i := 1; i < count+1; i++ {
+	for i := 0; i < max; i++ {
 		comma := ""
-		if i < count {
+		if i < max-1 {
 			comma = ","
 		}
 		items = append(items, &Item{No: i, Comma: comma})
 	}
-	fmt.Printf("item length: %d\n", len(items))
+	fmt.Println(len(items))
 
 	tpath := abs(templatePath)
 	fmt.Printf("templatePath: %s\n", tpath)
 
 	tmpl := template.Must(template.ParseFiles(tpath))
 	buf := &bytes.Buffer{}
-	err := tmpl.Execute(buf, items)
+	err := tmpl.Execute(buf, &Data{Items: items})
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -60,6 +59,10 @@ func main() {
 	w.Flush()
 
 	fmt.Println("End")
+}
+
+type Data struct {
+	Items []*Item
 }
 
 type Item struct {

@@ -1,12 +1,9 @@
 {
-  "data": {
-    "items": [
-{{range .Items}}      {
-        "id": "id-{{.No}}",
-        "name": "あいてむ{{.No}}",
-        "price": {{.No}},
-        "display": true
-      }{{.Comma}}
-{{end}}    ]
-  }
+  "items": [
+{{range .}}    {
+      "id": "id-{{.No}}",
+      "name": "あいてむ{{.No}}",
+      "price": {{.No}}
+    }{{.Comma}}
+{{end}}  ]
 }

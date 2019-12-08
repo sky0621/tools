@@ -1,0 +1,12 @@
+{
+  "data": {
+    "items": [
+{{range .Items}}      {
+        "id": "id-{{.No}}",
+        "name": "あいてむ{{.No}}",
+        "price": {{.No}},
+        "display": true
+      }{{.Comma}}
+{{end}}    ]
+  }
+}
